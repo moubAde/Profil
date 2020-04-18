@@ -19,20 +19,19 @@ class ProfilDetailController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         valider.isEnabled = false
-        //print("profil in detail")
-        //print(profil)
     }
     
     @IBAction func submit (sender: UIButton){
-        //print(firstName.text)
-        //print(lastName.text)
-        
         profil.data.first_name = firstName.text!
         profil.data.last_name = lastName.text!
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let profil = storyboard.instantiateViewController(withIdentifier: "profil") as! ProfilController
         profil.profil = self.profil
-        navigationController?.show(profil, sender: self)
+        var viewControllers = navigationController?.viewControllers
+        viewControllers?.removeAll()
+        viewControllers?.append(profil)
+        navigationController?.setViewControllers(viewControllers!, animated: true)
+        
     }
     
     @IBAction func check(sender: UITextField){

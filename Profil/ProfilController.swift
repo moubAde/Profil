@@ -22,16 +22,13 @@ class ProfilController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*let preferences = UserDefaults.standard
-        let currentProfilKey = "currentProfil"
-        if preferences.object(forKey: currentProfilKey) != nil {
-            profil = preferences.object(forKey: currentProfilKey) as! Profil
-            print("preferences")
-            print(profil)
-        }*/
-        
         if(profil == nil){
-            self.callApi(callback: loadProfil)
+            profil=getPreferences()
+            if(profil == nil){
+                self.callApi(callback: loadProfil)
+            }else{
+                self.loadProfil(profil: profil!)
+            }
         }else{
             self.loadProfil(profil: profil!)
         }
@@ -48,14 +45,10 @@ class ProfilController: UIViewController {
                 data, res, err in
                     if let data = data {
                         let json_profil = try? JSONDecoder().decode(Profil.self, from: data)
-                        //print(json_profil?.data)
                         self.profil=json_profil
-                        //print(self.profil)
-                        //self.loadProfil(profil: self.profil!)
                         callback(self.profil!)
                     }
             }.resume()
-            print("finished")
         }
    }
     
@@ -66,11 +59,43 @@ class ProfilController: UIViewController {
             let url = URL(string:profil.data.avatar)
             self.imageView.kf.setImage(with: url)
         }
+        setPreferences(profil: profil)
+    }
+    
+    func setPreferences(profil: Profil){
+        let preferences = UserDefaults.standard
+        preferences.set(profil.data.id, forKey: "id")
+        preferences.set(profil.data.email, forKey: "email")
+        preferences.set(profil.data.first_name, forKey: "first_name")
+        preferences.set(profil.data.last_name, forKey: "last_name")
+        preferences.set(profil.data.avatar, forKey: "avatar")
         
-        /*let preferences = UserDefaults.standard
-        let currentProfil = self.profil
-        let currentProfilKey = "currentProfil"
-        preferences.set(currentProfil, forKey: currentProfilKey)*/
+        preferences.set(profil.ad.company, forKey: "company")
+        preferences.set(profil.ad.url, forKey: "url")
+        preferences.set(profil.ad.text, forKey: "text")
+    }
+    
+    func getPreferences() -> Profil?{
+        	
+        let preferences = UserDefaults.standard
+
+        let id = preferences.object(forKey: "id") as? Int
+        let email = preferences.object(forKey: "email") as? String
+        let first_name = preferences.object(forKey: "first_name") as? String
+        let last_name = preferences.object(forKey: "last_name") as? String
+        let avatar = preferences.object(forKey: "avatar") as? String
+        let company = preferences.object(forKey: "company") as? String
+        let url = preferences.object(forKey: "url") as? String
+        let text = preferences.object(forKey: "text") as? String
+        
+        if(id != nil && email != nil && first_name != nil && last_name != nil && avatar != nil && company != nil && url != nil && text != nil){
+            let data = Data(id: id!, email: email!, first_name: first_name!, last_name: last_name!, avatar: avatar!)
+            let ad = Ad( company: company!, url: url!, text: text!)
+            
+            let profil = Profil(data: data, ad: ad)
+            return profil
+        }
+        return nil
     }
 }
 
