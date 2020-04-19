@@ -19,6 +19,6 @@ Application présentant un profil réalisé en Swift
 2. Lancer le projet dans Xcode.
 
 ## Images
-<img src="./Images/screen1.png" alt="Screenshot" height="48%" width="48%">  
-<img src="./Images/screen2.png" alt="Screenshot" height="48%" width="48%">
-<img src="./Images/screen3.png" alt="Screenshot" height="48%" width="48%">
+<img src="./Images/screen1.png" alt="Screenshot" height="48%" width="48%">   
+<img src="./Images/screen2.png" alt="Screenshot" height="48%" width="48%"> 
+<img src="./Images/screen3.png" alt="Screenshot" height="48%" width="48%"> 
