@@ -31,7 +31,6 @@ class ProfilDetailController: UIViewController {
         viewControllers?.removeAll()
         viewControllers?.append(profil)
         navigationController?.setViewControllers(viewControllers!, animated: true)
-        
     }
     
     @IBAction func check(sender: UITextField){
